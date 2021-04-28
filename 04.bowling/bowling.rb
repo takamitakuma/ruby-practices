@@ -13,8 +13,7 @@ scores.each do |x|
   end
 end
 
-frames = []
-shots.each_slice(2).map { |x| frames << x }
+frames = shots.each_slice(2).map { |x| x }
 
 if frames.length == 11 && frames[9][0] != 10
   frames[9] << frames[10][0]
