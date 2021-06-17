@@ -6,14 +6,14 @@ require 'optparse'
 def main(options)
   if ARGV[0].nil? # 標準入力から受け取る際の処理
     stdin_value = $stdin.read
-    options['l'] ? stdin_option_l(stdin_value) : stdin_no_option(stdin_value)
+    options['l'] ? output_stdin_option_l(stdin_value) : output_stdin_no_option(stdin_value)
   else
     file_names = ARGV
-    options['l'] ? option_l(file_names) : no_option(file_names)
+    options['l'] ? output_option_l(file_names) : output_no_option(file_names)
   end
 end
 
-def option_l(file_names)
+def output_option_l(file_names)
   total_row = 0
   file_names.each do |file_name|
     file_content = File.open(file_name) { |file| file.read }
@@ -24,7 +24,7 @@ def option_l(file_names)
   puts "#{total_row.to_s.rjust(8)} total" if file_names.size > 1
 end
 
-def no_option(file_names)
+def output_no_option(file_names)
   total_row = 0
   total_word = 0
   total_byte = 0
@@ -43,14 +43,14 @@ def no_option(file_names)
   puts "#{[total_row, total_word, total_byte].map { |value| value.to_s.rjust(8) }.join} total" if file_names.size > 1
 end
 
-def stdin_no_option(stdin_value)
+def output_stdin_no_option(stdin_value)
   row_count = stdin_value.count("\n")
   word_count = stdin_value.split(/\s+/).count
   byte_count = stdin_value.bytesize
   puts [row_count, word_count, byte_count].map { |value| value.to_s.rjust(8) }.join
 end
 
-def stdin_option_l(stdin_value)
+def output_stdin_option_l(stdin_value)
   row_count = stdin_value.count("\n")
   puts row_count.to_s.rjust(8)
 end
